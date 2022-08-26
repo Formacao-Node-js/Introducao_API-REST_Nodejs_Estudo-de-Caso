@@ -63,6 +63,7 @@ app.get("/game/:id", (req, res) => {
     }
   }
 });
+
 app.post("/cadastro", (req, res) => {
   const { id, name, type, price } = req.body;
 
@@ -78,4 +79,20 @@ app.post("/cadastro", (req, res) => {
     price,
   });
   res.status(200).json(DB);
+});
+
+app.delete("/game/:id", (req, res) => {
+  if (isNaN(req.params.id)) {
+    res.sendStatus(302);
+  } else {
+    var id = req.params.id;
+    var index = DB.games.findIndex((index) => index.id == id); // se achar o index, vai ser 0 ou >0. Se não achar: = -1
+
+    if (index == -1) {
+      res.sendStatus(404);
+    } else {
+      DB.games.splice(index, 1);
+      res.sendStatus(200);
+    }
+  }
 });
