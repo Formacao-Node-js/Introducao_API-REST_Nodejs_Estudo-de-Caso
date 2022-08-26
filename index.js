@@ -51,14 +51,32 @@ app.get("/games", (req, res) => {
 
 app.get("/game/:id", (req, res) => {
   if (isNaN(req.params.id)) {
-    res.sendStatus(400);
+    res.sendStatus = 400;
   } else {
     var id = parseInt(req.params.id);
     var game = DB.games.find((g) => g.id == id);
     if (game != undefined) {
-      res.json(game);
+      // res.sendStatus = 200;
+      res.status(302).json(game);
     } else {
       res.sendStatus(404);
     }
   }
+});
+
+app.post("/cadastro", (req, res) => {
+  const { id, name, type, price } = req.body;
+
+  DB.games.forEach((e) => {
+    if (e.id == id) {
+      res.send("opa");
+    }
+  });
+  DB.games.push({
+    id,
+    name,
+    type,
+    price,
+  });
+  res.status(200).json(DB);
 });
