@@ -63,13 +63,12 @@ app.get("/game/:id", (req, res) => {
     }
   }
 });
-
 app.post("/cadastro", (req, res) => {
   const { id, name, type, price } = req.body;
 
   DB.games.forEach((e) => {
     if (e.id == id) {
-      res.send("opa");
+      res.status(412).json();
     }
   });
   DB.games.push({
