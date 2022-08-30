@@ -96,3 +96,30 @@ app.delete("/game/:id", (req, res) => {
     }
   }
 });
+
+app.put("/game/:id", (req, res) => {
+  let id = req.params.id;
+  if (isNaN(id)) {
+    res.status(400).json();
+  } else {
+    game = DB.games.find((g) => g.id == id);
+    var { name, price, year } = req.body;
+
+    if (name != undefined) {
+      game.name = name;
+    }
+
+    if (price != undefined) {
+      if (isNaN(price)) {
+        res.status(400).json({ causa: " este campo só aceita números " });
+      }
+      game.price = price;
+    }
+
+    if (year != undefined) {
+      game.year = year;
+    }
+
+    res.status(200).json();
+  }
+});
